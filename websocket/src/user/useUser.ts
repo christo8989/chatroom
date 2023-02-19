@@ -1,18 +1,17 @@
-import { create } from '~/store/create'
-import { GetStateType } from '~/store/getStateType';
+import { useCallback } from 'react'
+import { useDispatch, useSelector } from '~/store'
+import { saveUsername as saveUsernameAction } from '~/user/userSlice'
 
-const KEY = 'username';
+export const useUser = () => {
+  const dispatch = useDispatch()
+  const saveUsername = useCallback((username: string) => {
+    dispatch(saveUsernameAction(username))
+  }, [dispatch])
 
-export const useUser = create(
-  {
-    username: localStorage.getItem(KEY) || '',
-  },
-  (set) => ({
-    saveUsername: (username: string) => {
-      localStorage.setItem(KEY, username);
-      set({ username })
-    },
-  }),
-)
+  const username = useSelector(state => state.user.username);
 
-export type UserState = GetStateType<typeof useUser>;
+  return {
+    username,
+    saveUsername,
+  }
+}

@@ -1,11 +1,10 @@
 import { useCallback } from 'react'
 import { ChatMessageForm, MessageFormValues } from '~/chat/ChatMessageForm'
-import { selectMessages } from '~/chat/selectMessages'
 import { useMessages } from '~/chat/useMessages'
 
 export const ChatPage = () => {
-  const messages = useMessages(selectMessages)
-  const pushMessage = useMessages(state => state.pushMessage)
+  const { messages, pushMessage } = useMessages()
+
   const handleSubmit = useCallback((data: MessageFormValues) => {
     pushMessage(data?.message)
   }, [pushMessage])
@@ -13,8 +12,8 @@ export const ChatPage = () => {
   return (
     <div>
       <div>
-        {messages.map(message => (
-          <p>{message}</p>
+        {messages.map((message, i) => (
+          <p key={message + i}>{message}</p>
         ))}
       </div>
       <div>

@@ -1,10 +1,8 @@
 import { ChatPage } from '~/chat/ChatPage'
-import { selectUsername } from '~/user/selectUsername'
-import { UsernamePage } from '~/user/UsernamePage'
-import { useUser } from '~/user/useUser'
+import { UsernamePage, useUser } from '~/user'
 
 export const Router = () => {
-  const username = useUser(selectUsername)
+  const {username} = useUser()
 
   if (username) {
     return <ChatPage />

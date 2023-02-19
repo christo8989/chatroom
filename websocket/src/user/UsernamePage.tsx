@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
-import { useUser } from '~/user/useUser'
 import { UsernameForm, UsernameFormValues } from '~/user/UsernameForm';
+import { useUser } from '~/user/useUser';
 
 export const UsernamePage = () => {
-  const saveUsername = useUser(state => state.saveUsername);
+  const { saveUsername } = useUser();
+
   const onSubmit = useCallback((data: UsernameFormValues) => {
     saveUsername(data.username)
   }, [saveUsername])

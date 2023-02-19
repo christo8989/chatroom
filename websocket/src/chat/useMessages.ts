@@ -1,24 +1,19 @@
-import { create } from '~/store/create';
-import { GetStateType } from '~/store/getStateType';
+import { useCallback } from 'react'
+import { useDispatch, useSelector } from '~/store'
+import { pushMessage as pushMessageAction } from '~/chat/messagesSlice'
 
-export const useMessages = create(
-  {
-    messages: [] as string[],
-  },
-  // (set, get) => ({
-  //   pushMessage(message: string) {
-  //     const messages = [...get().messages];
-  //     messages.push(message)
-  //     set({ messages })
-  //   }
-  // }),
-  (set, get) => ({
-    pushMessage(message: string) {
-      const messages = get().messages;
-      messages.push(message)
-      set({ messages })
-    }
-  }),
-)
+export const useMessages = () => {
+  const dispatch = useDispatch()
+  const pushMessage = useCallback((message: string) => {
+    dispatch(
+      pushMessageAction(message)
+    )
+  }, [dispatch])
 
-export type MessagesState = GetStateType<typeof useMessages>;
+  const messages = useSelector(state => state.messages.messages)
+
+  return {
+    messages,
+    pushMessage,
+  }
+}
