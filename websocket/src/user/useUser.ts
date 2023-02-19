@@ -1,4 +1,5 @@
 import { create } from '~/store/create'
+import { GetStateType } from '~/store/getStateType';
 
 const KEY = 'username';
 
@@ -14,4 +15,4 @@ export const useUser = create(
   }),
 )
 
-export type UserState = Parameters<Parameters<typeof useUser>[0]>[0];
+export type UserState = GetStateType<typeof useUser>;

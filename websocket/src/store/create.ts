@@ -1,10 +1,11 @@
 import { create as zCreate, StateCreator, StoreMutatorIdentifier } from 'zustand'
 import { combine } from 'zustand/middleware'
+import { immer } from 'zustand/middleware/immer'
 
 export const create = <
-  T extends object, 
-  U extends object, 
-  Mps extends [StoreMutatorIdentifier, unknown][] = [], 
+  T extends object,
+  U extends object,
+  Mps extends [StoreMutatorIdentifier, unknown][] = [],
   Mcs extends [StoreMutatorIdentifier, unknown][] = []
 >(
   initialState: T,
@@ -12,6 +13,6 @@ export const create = <
 ) => (
   zCreate(
     // @ts-expect-errors
-    combine<T, U, Mps, Mcs>(initialState, actions)
+    combine<T, U, Mps, Mcs>(initialState, immer(actions))
   )
 )
