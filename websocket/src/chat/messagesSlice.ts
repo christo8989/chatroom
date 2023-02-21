@@ -1,8 +1,9 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+import { Message } from '~/chat/Message';
 import { createSlice } from '~/store/createSlice';
 
 interface MessagesState {
-  messages: string[];
+  messages: Message[];
 }
 
 const initialState: MessagesState = {
@@ -13,8 +14,8 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    pushMessage(state, action: PayloadAction<string>) {
-      if (!state.messages.some(a => a === action.payload)) {
+    pushMessage(state, action: PayloadAction<Message>) {
+      if (!state.messages.some(a => a.id === action.payload.id)) {
         state.messages.push(action.payload)
       }
     }

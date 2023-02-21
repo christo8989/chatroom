@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import { ChatMessageForm, MessageFormValues } from '~/chat/ChatMessageForm'
+import { Message } from '~/chat/Message'
 import { useMessages } from '~/chat/useMessages'
 import { useWebSocket } from '~/chat/useWebSocket'
 import { useUser } from '~/user'
@@ -12,15 +13,16 @@ export const ChatPage = () => {
   useEffect(() => {
     if (lastMessage) {
       const messageObj = JSON.parse(lastMessage.data)
-      pushMessage(messageObj.message)
+      pushMessage(messageObj)
     }
   }, [lastMessage, pushMessage])
 
   const handleSubmit = useCallback((data: MessageFormValues) => {
-    sendJsonMessage({
+    const partialMessage: Partial<Message> = {
       username,
-      message: data.message,
-    })
+      text: data.message,
+    }
+    sendJsonMessage(partialMessage)
   }, [sendJsonMessage])
 
   if (readyState !== ReadyState.OPEN) {
@@ -30,8 +32,8 @@ export const ChatPage = () => {
   return (
     <div>
       <div>
-        {messages.map((message, i) => (
-          <p key={message + i}>{message}</p>
+        {messages.map((message) => (
+          <p key={message.id}>{message.username}: "{message.text}"</p>
         ))}
       </div>
       <div>
