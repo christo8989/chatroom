@@ -14,7 +14,9 @@ const messagesSlice = createSlice({
   initialState,
   reducers: {
     pushMessage(state, action: PayloadAction<string>) {
-      state.messages.push(action.payload)
+      if (!state.messages.some(a => a === action.payload)) {
+        state.messages.push(action.payload)
+      }
     }
   }
 })

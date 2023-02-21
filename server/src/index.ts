@@ -1,4 +1,3 @@
-// import './paths'
 import express from 'express';
 import { WebSocketServer } from 'ws';
 import { getId, getTimestamp } from '~/utilities';
@@ -8,14 +7,20 @@ const port = 4000;
 
 const wsServer = new WebSocketServer({ noServer: true });
 wsServer.on('connection', socket => {
-  socket.on('message', message => {
-    // const messageObj = JSON.parse(message.toString());
+  socket.on('message', (message, binary) => {
+    const messageObj = JSON.parse(message.toString());
     const newMessage = {
       id: getId(),
-      message: message.toString(),
+      ...messageObj,
       timestamp: getTimestamp(),
     };
     console.log('Client Message: ', JSON.stringify(newMessage, null, 2));
+
+    wsServer.clients.forEach(client => {
+      if (client.readyState === client.OPEN) {
+        client.send(JSON.stringify(newMessage), { binary });
+      }
+    });
   });
 });
 

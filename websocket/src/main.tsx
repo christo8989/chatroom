@@ -12,14 +12,14 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   </React.StrictMode>,
 )
 
-const socket = new WebSocket('ws://localhost:4000');
+// const socket = new WebSocket('ws://localhost:4000');
 
-// Connection opened
-socket.addEventListener('open', (event) => {
-  socket.send('Hello Server!');
-});
+// // Connection opened
+// socket.addEventListener('open', (event) => {
+//   socket.send('Hello Server!');
+// });
 
-// Listen for messages
-socket.addEventListener('message', (event) => {
-  console.log('Message from server ', event.data);
-});
+// // Listen for messages
+// socket.addEventListener('message', (event) => {
+//   console.log('Message from server ', event.data);
+// });
